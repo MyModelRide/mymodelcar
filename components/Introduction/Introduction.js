@@ -41,7 +41,7 @@ const Introduction = () => {
             <p className={style.leftPara1}>
               {" "}
               {locale == "en"
-                ? " COMPLETE THE FORM /it doesn't take more than 7 minutes"
+                ? " COMPLETE THE FORM it doesn't take more than 7 minutes"
                 : "  ПОПЪЛНИ ФОРМАТА /не отнема повече от 7 минути"}
             </p>
             <p className={style.leftPara2}>
