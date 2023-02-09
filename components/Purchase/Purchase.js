@@ -2,13 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import useWindowSize from "../../hooks/useWindowSize";
 import PurchaseForm from "./PurchaseForm/PurchaseForm";
+import { useRouter } from "next/router";
 const style = {
   wrapper: "bg-[#0647D4] py-24 md:py-36",
   heading:
-    "text-5xl md:text-8xl font-medium text-white font tracking-wider text-center font",
+    "text-5xl md:text-7xl font-medium text-white font tracking-wider text-center font",
 };
 
 const Purchase = () => {
+  const { locale } = useRouter();
   const { width } = useWindowSize();
   const PurchaseBackground = styled.div`
     background: radial-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
@@ -25,7 +27,11 @@ const Purchase = () => {
   `;
   return (
     <PurchaseBackground className={style.wrapper}>
-      <h3 className={style.heading}>Поръчай своя персонализиран модел</h3>
+      <h3 className={style.heading}>
+        {locale == "en"
+          ? "Order your custom model"
+          : " Поръчай своя персонализиран модел"}
+      </h3>
       <PurchaseForm />
     </PurchaseBackground>
   );

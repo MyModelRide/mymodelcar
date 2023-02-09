@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React,{useState} from "react";
 import Home from "../components/Home/Home";
 import Footer from "../components/Footer/Footer";
 import Animator from "../components/UI/Animator";

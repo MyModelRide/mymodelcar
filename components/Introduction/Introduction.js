@@ -3,10 +3,13 @@ import { BsStopwatch } from "react-icons/bs";
 import { GoLocation } from "react-icons/go";
 import { AiOutlineStar } from "react-icons/ai";
 import { BiCube } from "react-icons/bi";
-import MobileIntroduction from './MobileIntroduction'
+import { useRouter } from "next/router";
+
+import MobileIntroduction from "./MobileIntroduction";
 const style = {
   wrapper: "font flex flex-col items-center justify-center ",
-  desktopContainer: "font flex flex-col items-center justify-center hidden sm:flex",
+  desktopContainer:
+    "font flex flex-col items-center justify-center hidden sm:flex",
   heading: "text-[#0647D4] text-2xl md:text-2xl tracking-widest",
   endHeading: "text-sm text-gray-600  font1 my-3",
   content1: "w-[43%]",
@@ -22,20 +25,30 @@ const style = {
   icon: "text-5xl md:text-6xl  text-[#0647D4] font-bold my-3",
 };
 const Introduction = () => {
+  const { locale } = useRouter();
   return (
     <div className={style.wrapper}>
       <div className={style.desktopContainer}>
         <p className="h-[8vh] border-[1px] border-[#0647D4]"></p>
-        <p className={style.heading}>КАК ДА ПОРЪЧАМ</p>{" "}
+        <p className={style.heading}>
+          {" "}
+          {locale == "en" ? "HOW CAN I ORDER" : "КАК ДА ПОРЪЧАМ "}
+        </p>{" "}
         <p className="h-[3vh] border-[1px] border-[#0647D4]"></p>
         {/* adding the content of the website */}
         <div className="w-[90%] sm:w-[90%] md:w-[80%] lg:w-[60%] flex">
           <section className={style.content1}>
             <p className={style.leftPara1}>
-              ПОПЪЛНИ ФОРМАТА /не отнема повече от 7 минути/
+              {" "}
+              {locale == "en"
+                ? " COMPLETE THE FORM /it doesn't take more than 7 minutes"
+                : "  ПОПЪЛНИ ФОРМАТА /не отнема повече от 7 минути"}
             </p>
             <p className={style.leftPara2}>
-            КАЧИ СНИМКИ НА СВОЯ ПЕРСОНАЛИЗИРАНИЯ МОДЕЛ
+              {" "}
+              {locale == "en"
+                ? "UPLOAD PHOTOS OF YOUR CUSTOM MODEL"
+                : " КАЧИ СНИМКИ НА СВОЯ ПЕРСОНАЛИЗИРАНИЯ МОДЕЛ"}
             </p>
           </section>
           <section className={style.centerDiagram}>
@@ -51,22 +64,33 @@ const Introduction = () => {
           <section className={style.content2}>
             {" "}
             <p className={style.rightPara1}>
-            ПОПЪЛНИ ДЕТАЙЛИ ЗА СВОЯ ПЕРСОНАЛИЗИРАН МОДЕЛ
+              {" "}
+              {locale == "en"
+                ? "FULL DETAILS FOR YOUR CUSTOM MODEL"
+                : " ПОПЪЛНИ ДЕТАЙЛИ ЗА СВОЯ ПЕРСОНАЛИЗИРАН МОДЕЛ"}
             </p>
             <p className={style.rightPara2}>
-            ЗАВЪРШИ ПОРЪЧКАТА
+              {" "}
+              {locale == "en" ? "COMPLETE ORDER" : "  ЗАВЪРШИ ПОРЪЧКАТА"}
             </p>
           </section>
         </div>
         <p className={style.endHeading}>
-          ПОЛУЧИ НА ПОСОЧЕНИЯ ОТ ТЕБ АДРЕС </p>
-          <p className={style.endHeading}>
-          /изработката отнема до 1 календарен месец от завършване на поръчката/
+          {" "}
+          {locale == "en"
+            ? "GET THE ADDRESS SPECIFIED BY YOU"
+            : "  ПОЛУЧИ НА ПОСОЧЕНИЯ ОТ ТЕБ АДРЕС"}
+        </p>
+        <p className={style.endHeading}>
+          {" "}
+          {locale == "en"
+            ? "PRODUCTION TAKES UP TO 1 CALENDAR MONTH FROM COMPLETION OF THE ORDER"
+            : "изработката отнема до 1 календарен месец от завършване на поръчката"}
         </p>{" "}
         <p className="h-[3vh] border-[1px] border-[#0647D4]"></p>
       </div>
       {/* adding the mobile container */}
-      <MobileIntroduction/>
+      <MobileIntroduction />
     </div>
   );
 };

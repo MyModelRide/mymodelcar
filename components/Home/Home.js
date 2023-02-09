@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Cookies from "js-cookie";
 import useWindowSize from "../../hooks/useWindowSize";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import styled from "styled-components";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+
+  
 const style = {
   wrapper: "h-[100vh] w-[100vw] flex flex-col h-[70%]",
   heading:
@@ -21,6 +24,7 @@ const style = {
 };
 
 const Home = (props) => {
+  const { locale, locales, push } = useRouter();
   const { width } = useWindowSize();
   // this is the main image in the home page
   const FeaturedBackground1 = styled.div`
@@ -42,11 +46,10 @@ const Home = (props) => {
     "model-ride",
     "A website for selling products related to cars, vehicles"
   );
-  
-
+  const { t } = useTranslation("home");
   return (
     <div className={style.wrapper} style={{ fontFamily: "Poppins,serif" }}>
-      <FeaturedBackground1 className="flex flex-col ">
+      <FeaturedBackground1 className="flex flex-col">
         <Navbar onScroll={onScroll} />
       </FeaturedBackground1>
     </div>
@@ -54,3 +57,4 @@ const Home = (props) => {
 };
 
 export default Home;
+

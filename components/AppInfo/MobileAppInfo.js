@@ -1,7 +1,5 @@
 import React from "react";
-import { AiFillApple, AiFillAndroid } from "react-icons/ai";
-import { GiCycle } from "react-icons/gi";
-import { BsBoxSeam } from "react-icons/bs";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 const style = {
@@ -16,6 +14,7 @@ const style = {
   rightPara: "text-sm text-gray-600 font1 tracking-normal mt-8",
 };
 const MobileAppInfo = () => {
+  const { locale } = useRouter();
   return (
     <div className={style.wrapper}>
       <section className="flex flex-col items-center w-[19%]">
@@ -64,7 +63,10 @@ const MobileAppInfo = () => {
         </section>
       </div>
       <Link href="/blog">
-        <button className={style.btn}>КЪМ БЛОГА</button>{" "}
+        <button className={style.btn}>
+          {" "}
+          {locale == "en" ? "TO THE BLOG" : " КЪМ БЛОГА"}
+        </button>{" "}
       </Link>
       <section className="flex flex-col w-[19%] items-center">
         {/* <p className="h-[3vh] border-[1px] border-[#0647D4]"></p> */}

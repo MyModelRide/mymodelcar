@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { useRouter } from "next/router";
 const style = {
   wrapper: "w-[90%] md:w-[40%] lg:w-[35%] mx-auto py-12 md:py-12",
   input:
@@ -14,6 +14,7 @@ const style = {
   para: "text-white my-1 text-sm",
 };
 const PurchaseForm = () => {
+  const { locale } = useRouter();
   const tokenWithWriteAccess =
     "skZvPsFVJZY444tijVUzxXE01WwMUztFVBWzkBcf8T3DAgs0lCeaKNsVveFwOFPrxQkl0Y2VLMtfPz42oTJLxVqvWUHigFB1hF9N8ztFZLsiN4g7XpZv1dZ2RScb1qLftkaQRs3rK0YiSAB1oNe4bs0iGIanFsPbXNMiD5vz3EYQNaMRZTbM";
   const [Name, setName] = useState("");
@@ -84,7 +85,7 @@ const PurchaseForm = () => {
         image:
           "https://res.cloudinary.com/dwsjylbja/image/upload/v1675514066/logo/logo_colour_h4cmwr.svg",
         quantity: 1,
-        price:900,
+        price: 900,
       });
     }
     if (event.target.value == "1050") {
@@ -130,70 +131,70 @@ const PurchaseForm = () => {
     ];
     // adding the fundtion to upload data to cloundinary
     let imageURLS = [];
-    // for (let i = 0; i < fileData.files.length; i++) {
-    //   if (fileData.files[i]) {
-    //     formData[i].append("file", fileData.files[i]);
-    //   }
-    //   formData[i].append("upload_preset", "race-pro");
-    // }
-    // for (let i = 0; i < fileData.files.length; i++) {
-    //   let a = await fetch(
-    //     "https://api.cloudinary.com/v1_1/dwsjylbja/image/upload",
-    //     {
-    //       method: "POST",
-    //       body: formData[i],
-    //     }
-    //   ).then((r) => r.json());
-    //   imageURLS.push(a.secure_url);
-    // }
+    for (let i = 0; i < fileData.files.length; i++) {
+      if (fileData.files[i]) {
+        formData[i].append("file", fileData.files[i]);
+      }
+      formData[i].append("upload_preset", "race-pro");
+    }
+    for (let i = 0; i < fileData.files.length; i++) {
+      let a = await fetch(
+        "https://api.cloudinary.com/v1_1/dwsjylbja/image/upload",
+        {
+          method: "POST",
+          body: formData[i],
+        }
+      ).then((r) => r.json());
+      imageURLS.push(a.secure_url);
+    }
     let data = { Name, Email, Option, Details };
     // adding the function to upload the data to sanity
     formData0.append("file", fileData.files[0]);
     const sendData = async () => {
-      // const { data } = await axios.post(
-      //   `https://02r9lx8e.api.sanity.io/v2021-06-07/data/mutate/production?returnIds=true`,
-      //   {
-      //     mutations: [
-      //       {
-      //         create: {
-      //           _type: "users",
-      //           createdAt: new Date().toISOString(),
-      //           name: Name,
-      //           email: Email,
-      //           option: Option,
-      //           details: Details,
-      //           images: imageURLS,
-      //         },
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     headers: {
-      //       "Content-type": "application/json",
-      //       Authorization: `Bearer ${tokenWithWriteAccess}`,
-      //     },
-      //   }
-      // );
-      // fetch("/api/email", {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json, text/plain, */*",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // }).then(() => {
-      //   console.log("EMAIL sent");
-      // });
-      // fetch("/api/email-to-owner", {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json, text/plain, */*",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(data),
-      // }).then(() => {
-      //   console.log("EMAIL sent");
-      // });
+      const { data } = await axios.post(
+        `https://02r9lx8e.api.sanity.io/v2021-06-07/data/mutate/production?returnIds=true`,
+        {
+          mutations: [
+            {
+              create: {
+                _type: "users",
+                createdAt: new Date().toISOString(),
+                name: Name,
+                email: Email,
+                option: Option,
+                details: Details,
+                images: imageURLS,
+              },
+            },
+          ],
+        },
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${tokenWithWriteAccess}`,
+          },
+        }
+      );
+      fetch("/api/email", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(() => {
+        console.log("EMAIL sent");
+      });
+      fetch("/api/email-to-owner", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(() => {
+        console.log("EMAIL sent");
+      });
     };
     const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
     const stripePromise = loadStripe(publishableKey);
@@ -217,27 +218,33 @@ const PurchaseForm = () => {
     <div className={style.wrapper}>
       <div className="flex justify-between items-between w-[100%] mb-4 bg- p-2 rounded mx-auto">
         <p className="text-xl md:text-2xl font1 text-white font-bold">
-          Цена :{" "}
+          {locale == "en" ? "Price:" : "Цена :"}
         </p>
         <h2 className="text-xl md:text-2xl font1 text-green-500 font-bold">
-          {Option} лв.
+          {Option} {locale == "en" ? "BGN" : "  лв."}
         </h2>
       </div>
-      <p className={style.para}>Данни за поръчка</p>
+      <p className={style.para}>
+        {locale == "en" ? "Order data" : "Данни за поръчка"}
+      </p>
       <form className="flex flex-col items-start" onSubmit={handleFormSubmit}>
         <input
           type="text"
           className={style.input}
           onChange={handleNameChange}
-          placeholder="Име и Фамилия"
+          placeholder={locale == "en" ? "Name and Surname" : " Име и Фамилия"}
         />
         <input
           type="email"
-          className={style.input}с
+          className={style.input}
+          с
           onChange={handleEmailChange}
-          placeholder="Email"
-        />{" "}
-        <p className={style.para}>Качи твоите снимки</p>
+          placeholder={locale == "en" ? "Email" : "електронна поща"}
+        />
+        <p className={style.para}>
+          {" "}
+          {locale == "en" ? "Upload your photos" : " Качи твоите снимки"}
+        </p>
         <input
           type="file"
           id="files"
@@ -264,11 +271,11 @@ const PurchaseForm = () => {
           className={style.input}
           rows="6"
           cols="20"
-          placeholder="Детайли"
+          placeholder={locale == "en" ? "Details" : "Детайли :"}
           onChange={handleDetailsChange}
         />
         <button className={style.button} type="submit">
-          ПОРЪЧАЙ
+          {locale == "en" ? "ORDER" : "ПОРЪЧАЙ"}
         </button>
       </form>
     </div>

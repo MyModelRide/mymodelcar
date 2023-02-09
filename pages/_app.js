@@ -1,21 +1,25 @@
 import "../styles/globals.css";
-import React from "react";
-import Cookies from "js-cookie";
+import React,{useState} from "react";
 import HttpsRedirect from "react-https-redirect";
-
+import { appWithTranslation } from "next-i18next";
 import Pixel from "../components/Pixel";
+import CookieComp from '../components/CookieComp/CookieComp'
 function MyApp({ Component, pageProps }) {
-  Cookies.set("car", "cars");
-  Cookies.set("cars", "vehicles");
-  Cookies.set("ride", "racing");
-  Cookies.set("purchase", "website for purchasing the products releted to car");
-
+  const [HandleCookie, setHandleCookie] = useState(false);
+  const accept = () => {
+    setHandleCookie(true);
+  };
+  const reject = () => {
+    setHandleCookie(true);
+  };
   return (
     <HttpsRedirect>
       <div
         className="overflow-x-hidden"
         style={{ fontFamily: "Poppins,serif" }}
       >
+        {!HandleCookie && <CookieComp accept={accept} reject={reject} />}
+
         <Pixel name="FACEBOOK_PIXEL_1" />
         <Component {...pageProps} />
       </div>
@@ -23,7 +27,7 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);
 // export async function getStaticProps(context) {
 //   return {
 //     // the data in the props will be passed to the above function at the build time

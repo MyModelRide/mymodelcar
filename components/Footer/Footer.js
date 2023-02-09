@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import {
-  AiFillFacebook,
-  AiFillTwitterCircle,
-  AiOutlineInstagram,
-  AiFillYoutube,
-} from "react-icons/ai";
+import { AiFillFacebook, AiOutlineInstagram } from "react-icons/ai";
+import { useRouter } from "next/router";
+
 import Link from "next/link";
 const style = {
   wrapper: "ml-0 bg-[#0647D4] font text-white py-12 md:py-12",
@@ -25,6 +22,8 @@ const style = {
   mobile: "flex md:hidden flex-col",
 };
 const Footer = () => {
+  const { locale } = useRouter();
+
   return (
     <div className={style.wrapper}>
       {/* adding the content */}
@@ -37,49 +36,72 @@ const Footer = () => {
             alt="Logo of the website"
           />{" "}
           <Link href="/privacy-policy">
-            <p className={style.signature}>Privacy Policy</p>
+            <p className={style.signature}>
+              {locale == "en" ? " Privacy Policy" : "Политика за поверителност"}
+            </p>
           </Link>
         </section>
         <section className={style.navLinks}>
           <div className={style.col1}>
             <ul>
               <Link href="/">
-                <li className={style.list}>НАЧАЛО</li>
+                <li className={style.list}>
+                  {locale == "en" ? "BEGINING" : "НАЧАЛО"}
+                </li>
               </Link>
               <Link href="/purchase">
-                <li className={style.list}>ПОРЪЧКА</li>{" "}
+                <li className={style.list}>
+                  {locale == "en" ? "ORDER" : "  ПОРЪЧКА"}
+                </li>{" "}
               </Link>
               <Link href="/blog">
-                <li className={style.list}>БЛОГ</li>
+                <li className={style.list}>
+                  {locale == "en" ? "BLOG" : " БЛОГ "}
+                </li>
               </Link>
             </ul>
             <Link href="/terms-and-conditions">
-              <p className={style.signature}>Terms and Conditions</p>
+              <p className={style.signature}>
+                {" "}
+                {locale == "en" ? "Terms and Conditions" : "Правила и условия "}
+              </p>
             </Link>
           </div>
           <div className={style.col2}>
             <ul>
               <Link href="/purchase">
-                <li className={style.list}>КУПИ</li>{" "}
+                <li className={style.list}>
+                  {locale == "en" ? "BUY" : "  КУПИ "}
+                </li>{" "}
               </Link>
             </ul>{" "}
             <Link href="/warranty">
-              <p className={style.signature}>Гаранция</p>
+              <p className={style.signature}>
+                {locale == "en" ? "Warranty" : " Гаранция"}
+              </p>
             </Link>
           </div>
         </section>
         <section className={style.socialsContainer}>
           <div className={style.socials}>
             <section className="">
-              <p className="py-2 md:py-2">Follow Us</p>
+              <p className="py-2 md:py-2">
+                {locale == "en" ? "  Follow Us" : "Последвай ни"}
+              </p>
               <div className="flex">
-                <Link href="https://www.facebook.com/profile.php?id=100089965776263" target="_blank">
+                <Link
+                  href="https://www.facebook.com/profile.php?id=100089965776263"
+                  target="_blank"
+                >
                   <AiFillFacebook className={style.externalLink} />
                 </Link>
                 {/* <Link href="">
                   <AiFillTwitterCircle className={style.externalLink} />
                 </Link> */}
-                <Link href="https://www.instagram.com/mymodelride/?igshid=YmMyMTA2M2Y" target="_blank">
+                <Link
+                  href="https://www.instagram.com/mymodelride/?igshid=YmMyMTA2M2Y"
+                  target="_blank"
+                >
                   <AiOutlineInstagram className={style.externalLink} />
                 </Link>
                 {/* <Link href="">
@@ -90,18 +112,40 @@ const Footer = () => {
             {/* only be displayed on the mobile versions */}
             <section className={style.mobile}>
               <Link href="/privacy-policy">
-                <p className={style.mobileSignature}>Privacy Policy</p>
+                <p className={style.mobileSignature}>
+                  {" "}
+                  {locale == "en"
+                    ? " Privacy Policy"
+                    : "Политика за поверителност"}
+                </p>
               </Link>
               <Link href="/terms-and-conditions">
-                <p className={style.mobileSignature}>Terms and Conditions</p>{" "}
+                <p className={style.mobileSignature}>
+                  {" "}
+                  {locale == "en"
+                    ? "Правила и условия"
+                    : " Terms and Conditions"}
+                </p>{" "}
               </Link>
               <Link href="/warranty">
-                <p className={style.mobileSignature}>Гаранция</p>
+                <p className={style.mobileSignature}>
+                  {" "}
+                  {locale == "en" ? "Warranty" : " Гаранция"}
+                </p>
               </Link>
-              <p className={style.mobileSignature}>Copyright © 2023 MyModelRide</p>
+              <p className={style.mobileSignature}>
+                {locale == "en"
+                  ? "  Copyright © 2023 MyModelRide"
+                  : " Авторско право © 2023 MyModelRide"}
+              </p>
             </section>
           </div>
-          <p className={style.signature}>Copyright © 2023 MyModelRide</p>
+          <p className={style.signature}>
+            Copyright © 2023 MyModelRide{" "}
+            {locale == "en"
+              ? "  Copyright © 2023 MyModelRide"
+              : " Авторско право © 2023 MyModelRide"}
+          </p>
         </section>
       </div>
     </div>

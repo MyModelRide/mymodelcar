@@ -6,8 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import useWindowSize from "../../hooks/useWindowSize";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 const NavDrawer = (props) => {
+  const { locale, locales, push } = useRouter();
+  const handleOptionChange = (e) => {
+    push("/", undefined, { locale: e.target.value });
+  };
   const { width } = useWindowSize();
   const [state, setState] = React.useState({
     right: false,
@@ -24,6 +29,7 @@ const NavDrawer = (props) => {
   };
   const style = {
     list: "list-none cursor-pointer  text-white my-3  mx-auto md:mx-4 hover:opacity-[0.8] text-sm",
+    input: "bg-transparent mx-4",
   };
   const list = (anchor) => (
     <Box
@@ -59,7 +65,7 @@ const NavDrawer = (props) => {
           <ul className="flex  flex-col">
             <Link href="/" className="text-center">
               <li className={style.list} onClick={() => props.onScroll("home")}>
-              НАЧАЛО
+                {locale == "en" ? "BEGINING" : "        НАЧАЛО"}
               </li>
             </Link>
             <Link href="/purchase">
@@ -67,17 +73,21 @@ const NavDrawer = (props) => {
                 className={style.list}
                 onClick={() => props.onScroll("about")}
               >
-               ЗА НАС
+                {" "}
+                {locale == "en" ? "ABOUT US" : "ЗА НАС"}
               </li>{" "}
             </Link>
 
             <Link href="/blog" className={style.list}>
-              <li className={style.list}>БЛОГ</li>
+              <li className={style.list}>
+                {" "}
+                {locale == "en" ? "BLOG" : "БЛОГ"}
+              </li>
             </Link>
           </ul>
           <Link href="/purchase">
             <button className="mx-auto bg-white rounded text-gray-900 px-12 py-2 mt-80  cursor-pointer hover:opacity-[0.9]">
-              ПОРЪЧАЙ СЕГА!
+              {locale == "en" ? "ORDER NOW!" : "   ПОРЪЧАЙ СЕГА!"}
             </button>
           </Link>
         </div>
@@ -90,28 +100,40 @@ const NavDrawer = (props) => {
       {/* below string will set the location of the drawer */}
       {["right"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <button
-            onClick={toggleDrawer(anchor, true)}
-            className="px-2 my-1 flex items-center justify-between w-[100vw]"
-          >
+          <button className="px-2 my-1 flex items-center justify-between w-[100vw]">
             {" "}
             <div>
               <img src={"/logo_colour.svg"} height={150} width={150} />
             </div>
-            <div className="">
-              {
-                <svg
-                  viewBox="0 0 100 80"
-                  width="30"
-                  height="20"
-                  style={{ fill: "#0647D4" }}
-                >
-                  <rect width="100" height="20"></rect>
-                  <rect y="30" width="100" height="20"></rect>
-                  <rect y="60" width="100" height="20"></rect>
-                </svg>
-              }
-            </div>
+            <section className="flex">
+              <select
+                name="forward_reason_business"
+                required="required"
+                onChange={handleOptionChange}
+                className={style.input}
+              >
+                <option value="en" selected={locale == "en" ? true : false}>
+                  EN
+                </option>
+                <option value="bg" selected={locale == "bg" ? true : false}>
+                  BG
+                </option>
+              </select>
+              <div className="" onClick={toggleDrawer(anchor, true)}>
+                {
+                  <svg
+                    viewBox="0 0 100 80"
+                    width="30"
+                    height="20"
+                    style={{ fill: "#0647D4" }}
+                  >
+                    <rect width="100" height="20"></rect>
+                    <rect y="30" width="100" height="20"></rect>
+                    <rect y="60" width="100" height="20"></rect>
+                  </svg>
+                }
+              </div>
+            </section>
           </button>
           <div className="">
             <Drawer
